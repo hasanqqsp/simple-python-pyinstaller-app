@@ -11,10 +11,10 @@ node {
     stage('Test') {
         docker.image('qnib/pytest').inside {
             sh 'py.test --verbose --junit-xml test-reports/results.xml sources/test_calc.py'
-        }
-        post {
-            always {
-                junit 'test-reports/results.xml'
+            post {
+                always {
+                    junit 'test-reports/results.xml'
+                }
             }
         }
     }
@@ -22,10 +22,10 @@ node {
     stage('Deliver') {
         docker.image('cdrx/pyinstaller-linux:python2').inside {
             sh 'pyinstaller --onefile sources/add2vals.py'
-        }
-        post {
-            success {
-                archiveArtifacts 'dist/add2vals'
+            post {
+                success {
+                    archiveArtifacts 'dist/add2vals'
+                }
             }
         }
     }
