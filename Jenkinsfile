@@ -25,7 +25,7 @@ node {
 
             echo "Test stage completed. Checking test report..."
             sh 'ls -l ${WORKSPACE}/test-reports/'
-            junit '${WORKSPACE}/test-reports/results.xml'
+            junit "${WORKSPACE}/test-reports/results.xml"
         }
 
         stage('Deliver') {
