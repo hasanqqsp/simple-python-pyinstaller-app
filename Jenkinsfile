@@ -9,7 +9,7 @@ node {
     }
     
     stage('Test') {
-        docker.image('qnib/pytest').inside {
+        docker.image('qnib/pytest').inside('-u root') {
             sh '''
             echo "Running tests..."
             mkdir -p test-reports
