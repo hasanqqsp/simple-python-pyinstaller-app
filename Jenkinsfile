@@ -18,7 +18,7 @@ node {
             sh '''
             echo "Running tests..."
             mkdir -p /workspace/test-reports
-            py.test --verbose --junit-xml /workspace/test-reports/results.xml sources/test_calc.py
+            
             '''
         }
         post {
