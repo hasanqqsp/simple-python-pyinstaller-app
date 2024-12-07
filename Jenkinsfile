@@ -30,7 +30,7 @@ node {
                 // Install pyinstaller using pip again
                 sh '''
                 echo "Installing PyInstaller..."
-                pip install pyinstaller
+                pip install pyinstaller==3.6
                 echo "Building executable..."
                 pyinstaller --onefile sources/add2vals.py
                 ls -l dist  # Verifikasi bahwa file executable ada
