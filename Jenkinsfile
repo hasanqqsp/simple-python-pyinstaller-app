@@ -1,16 +1,14 @@
 node {
-    // Tambahkan tahap untuk melakukan checkout dari repository Git
+    // Tahap Checkout untuk mengambil kode dari repository Git
     stage('Checkout') {
-        steps {
-            // Mengambil kode dari repository yang sudah dikonfigurasi di Jenkins
-            checkout scm
-        }
+        // Mengambil kode dari repository Git yang dikonfigurasi di Jenkins
+        checkout scm
     }
 
     // Tahap Build
     stage('Build') {
         docker.image('python:2-alpine').inside {
-            // Periksa apakah file ada dan kemudian kompilasi
+            // Periksa apakah file ada, lalu lakukan kompilasi
             sh '''
             echo "Checking files in sources directory..."
             ls -l sources/
