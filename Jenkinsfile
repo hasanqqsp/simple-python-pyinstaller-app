@@ -1,4 +1,4 @@
-node {
+
     stage('Build') {
         docker.image('python:2-alpine').inside {
             sh 'pwd'
@@ -29,4 +29,3 @@ node {
             }
         }
     }
-}
