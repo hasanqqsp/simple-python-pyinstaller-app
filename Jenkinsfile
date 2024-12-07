@@ -26,7 +26,7 @@ node {
         }
 
        stage('Deliver') {
-            docker.image('python:2-slim').inside {
+            docker.image('python:2-slim').inside('-u root') {
                 // Install pyinstaller using pip again
                 sh '''
                 echo "Installing PyInstaller..."
