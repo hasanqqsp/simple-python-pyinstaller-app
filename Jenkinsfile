@@ -9,13 +9,20 @@ node {
     }
     
     stage('Test') {
-        docker.image('qnib/pytest').inside {
+        docker.image('qnib/pytest').inside('-u root') {
             sh '''
             echo "Running tests..."
             mkdir -p test-reports
             py.test --verbose --junit-xml test-reports/results.xml sources/test_calc.py
-            junit 'test-reports/results.xml'
+            ls -l test-reports/
             '''
+        }
+        post {
+            always {
+                echo "Test stage completed. Checking test report..."
+                sh 'ls -l test-reports/'
+                junit 'test-reports/results.xml'
+            }
         }
     }
     
