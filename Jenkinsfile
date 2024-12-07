@@ -10,22 +10,33 @@ node {
     
     stage('Test') {
         docker.image('qnib/pytest').inside {
-            sh 'py.test --verbose --junit-xml test-reports/results.xml sources/test_calc.py'
-            post {
-                always {
-                    junit 'test-reports/results.xml'
-                }
+            sh '''
+            echo "Running tests..."
+            mkdir -p test-reports
+            py.test --verbose --junit-xml test-reports/results.xml sources/test_calc.py
+            '''
+        }
+        post {
+            always {
+                echo "Test stage completed. Checking test report..."
+                sh 'ls -l test-reports/'
+                junit 'test-reports/results.xml'
             }
         }
     }
     
     stage('Deliver') {
         docker.image('cdrx/pyinstaller-linux:python2').inside {
-            sh 'pyinstaller --onefile sources/add2vals.py'
-            post {
-                success {
-                    archiveArtifacts 'dist/add2vals'
-                }
+            sh '''
+            echo "Building executable..."
+            ls -l sources/
+            pyinstaller --onefile sources/add2vals.py
+            '''
+        }
+        post {
+            success {
+                echo "Archiving artifact..."
+                archiveArtifacts 'dist/add2vals'
             }
         }
     }
