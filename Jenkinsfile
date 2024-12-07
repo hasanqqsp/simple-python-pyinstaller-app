@@ -25,23 +25,22 @@ node {
             junit 'test-reports/results.xml'  // Jalankan junit dengan path yang benar
         }
 
-        stage('Deliver') {
-    docker.image('cdrx/pyinstaller-linux:python2').inside {
-        try {
-            sh '''
-            echo "Building executable..."
-            pyinstaller --onefile sources/add2vals.py
-            echo "Executable built successfully."
-            '''
-        } catch (Exception e) {
-            echo "Error during build: ${e.getMessage()}"
-            currentBuild.result = 'FAILURE'
-            throw e
+       stage('Deliver') {
+            docker.image('python:2-alpine').inside {
+                // Install pyinstaller using pip again
+                sh '''
+                echo "Installing PyInstaller..."
+                pip install pyinstaller
+                echo "Building executable..."
+                pyinstaller --onefile sources/add2vals.py
+                ls -l dist  # Verifikasi bahwa file executable ada
+                '''
+            }
+
+            echo "Archiving built artifact..."
+            archiveArtifacts 'dist/add2vals'
         }
-    }
-    echo "Archiving built artifact..."
-    archiveArtifacts 'dist/add2vals'
-}
+
 
 
     } catch (Exception e) {
