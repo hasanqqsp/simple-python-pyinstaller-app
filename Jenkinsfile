@@ -30,6 +30,7 @@ node {
                 // Install pyinstaller using pip again
                 sh '''
                 echo "Installing PyInstaller..."
+                apt-get update && apt-get install -y build-essential libffi-dev
                 pip install pyinstaller==3.6
                 echo "Building executable..."
                 pyinstaller --onefile sources/add2vals.py
