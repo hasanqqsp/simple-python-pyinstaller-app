@@ -27,6 +27,10 @@ node {
                 sh 'ls -l ${WORKSPACE}/test-reports/'
                 junit '${WORKSPACE}/test-reports/results.xml'
             }
+            failure {
+                echo "Tests failed! Here are the results:"
+                sh 'cat ${WORKSPACE}/test-reports/results.xml'
+            }
         }
     }
     
@@ -41,6 +45,9 @@ node {
             success {
                 echo "Archiving built artifact..."
                 archiveArtifacts 'dist/add2vals'
+            }
+            failure {
+                echo "Build failed! Check logs for errors."
             }
         }
     }
