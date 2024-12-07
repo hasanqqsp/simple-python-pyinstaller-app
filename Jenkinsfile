@@ -16,7 +16,6 @@ node {
             mkdir -p test-reports
             py.test --verbose --junit-xml test-reports/results.xml sources/test_calc.py
             '''
-            sh 'cp -r test-reports ${WORKSPACE}/'
         }
         post {
             always {
