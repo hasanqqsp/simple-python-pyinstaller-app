@@ -22,19 +22,17 @@ node {
             }
 
             echo "Test stage completed. Checking test report..."
-            junit 'test-reports/results.xml'  // Jalankan junit dengan path yang benar
+            junit 'test-reports/results.xml'  
         }
 
        stage('Deliver') {
             docker.image('python:2-slim').inside('-u root') {
-                // Install pyinstaller using pip again
                 sh '''
                 echo "Installing PyInstaller..."
                 apt-get update && apt-get install -y build-essential libffi-dev
                 pip install pyinstaller==3.6
                 echo "Building executable..."
                 pyinstaller --onefile sources/add2vals.py
-                ls -l dist  # Verifikasi bahwa file executable ada
                 '''
             }
 
@@ -50,7 +48,7 @@ node {
     } finally {
         if (currentBuild.result == 'FAILURE') {
             echo "Pipeline failed! Here are the results:"
-            sh 'cat ${WORKSPACE}/test-reports/results.xml'  // Output hasil tes jika gagal
+            sh 'cat ${WORKSPACE}/test-reports/results.xml' 
         } else {
             echo "Pipeline succeeded!"
         }
