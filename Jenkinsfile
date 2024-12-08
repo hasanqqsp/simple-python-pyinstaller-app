@@ -41,10 +41,19 @@ node {
             echo "Archiving built artifact..."
             sleep(60)
             archiveArtifacts 'dist/add2vals'
-
+            echo "Copying artifact to remote server..."
+            sshPublisher(publishers: [
+                sshPublisherDesc(configName: 'deployment-server', transfers: [
+                    sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: true, remoteDirectory: '/usr/home/hasanqqsp/dicoding-ci-cd', remoteDirectorySDF: false, removePrefix: '', sourceFiles: 'dist/add2vals')
+                ], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)
+            ])
+        
+            sshPublisher(publishers: [
+                sshPublisherDesc(configName: 'deployment-server', transfers: [
+                    sshTransfer(cleanRemote: false, excludes: '', execCommand: 'bash /usr/home/hasanqqsp/dicoding-ci-cd/add2vals', execTimeout: 120000, flatten: false, makeEmptyDirs: true, remoteDirectory: '/usr/home/hasanqqsp/dicoding-ci-cd', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '')
+                ], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)
+            ])
         }
-
-
 
     } catch (Exception e) {
         currentBuild.result = 'FAILURE'
