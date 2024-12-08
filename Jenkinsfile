@@ -25,7 +25,7 @@ node {
             junit 'test-reports/results.xml'  
         }
 
-       stage('Deliver') {
+       stage('Deploy') {
             docker.image('python:2-slim').inside('-u root') {
                 sh '''
                 echo "Installing PyInstaller..."
@@ -37,7 +37,10 @@ node {
             }
 
             echo "Archiving built artifact..."
+            sleep(60)
+            input "Lanjutkan ke tahap Deploy?"
             archiveArtifacts 'dist/add2vals'
+
         }
 
 
