@@ -32,7 +32,7 @@ node {
                 sh '''
                 echo "Installing dependencies for ARM64 cross-compilation..."
                 apt-get update && apt-get install -y build-essential python-dev libffi-dev gcc-aarch64-linux-gnu
-                pip install --user pyinstaller
+                pip install --user pyinstaller=3.6
 
                 echo "Configuring PyInstaller for ARM64..."
                 export PATH=$HOME/.local/bin:$PATH
