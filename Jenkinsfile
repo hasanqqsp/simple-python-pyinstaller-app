@@ -24,7 +24,9 @@ node {
             echo "Test stage completed. Checking test report..."
             junit 'test-reports/results.xml'  
         }
-
+        stage('Manual Approval') {
+            input "Lanjutkan ke tahap Deploy?"
+        }
        stage('Deploy') {
             docker.image('python:2-slim').inside('-u root') {
                 sh '''
@@ -38,7 +40,6 @@ node {
 
             echo "Archiving built artifact..."
             sleep(60)
-            input "Lanjutkan ke tahap Deploy?"
             archiveArtifacts 'dist/add2vals'
 
         }
