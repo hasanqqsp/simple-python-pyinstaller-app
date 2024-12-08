@@ -40,7 +40,7 @@ node {
                 export LDFLAGS="--target=aarch64-linux-gnu"
 
                 echo "Building executable for ARM64..."
-                pyinstaller --onefile --clean --distpath dist sources/add2vals.py
+                pyinstaller --onefile --clean --target=aarch64-linux-gnu --distpath dist sources/add2vals.py
 
                 echo "Verifying the ARM64 executable..."
                 ls -l dist/
