@@ -50,7 +50,7 @@ node {
         
             sshPublisher(publishers: [
                 sshPublisherDesc(configName: 'deployment-server', transfers: [
-                    sshTransfer(cleanRemote: false, excludes: '', execCommand: 'chmod +x add2vals && bash add2vals 2 5 && bash 5', execTimeout: 120000, flatten: false, makeEmptyDirs: true, remoteDirectory: 'dicoding-ci-cd', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '')
+                    sshTransfer(cleanRemote: false, excludes: '', execCommand: 'chmod +x add2vals && bash add2vals 2 5 && bash 5', execTimeout: 120000, flatten: false, makeEmptyDirs: true, remoteDirectory: 'dicoding-ci-cd/dist', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '')
                 ], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)
             ])
             currentBuild.result = 'SUCCESS'
