@@ -30,13 +30,22 @@ node {
        stage('Deploy') {
             docker.image('python:2-slim').inside('-u root') {
                 sh '''
-                echo "Installing PyInstaller..."
-                apt-get update && apt-get install -y build-essential libffi-dev
-                pip install pyinstaller==3.6
-                echo "Building executable..."
-                pyinstaller --onefile sources/add2vals.py
-                '''
-            }
+                echo "Installing dependencies for ARM64 cross-compilation..."
+                apt-get update && apt-get install -y build-essential python-dev libffi-dev gcc-aarch64-linux-gnu
+                pip install --user pyinstaller
+
+                echo "Configuring PyInstaller for ARM64..."
+                export PATH=$HOME/.local/bin:$PATH
+                export CFLAGS="--target=aarch64-linux-gnu"
+                export LDFLAGS="--target=aarch64-linux-gnu"
+
+                echo "Building executable for ARM64..."
+                pyinstaller --onefile --clean --distpath dist sources/add2vals.py
+
+                echo "Verifying the ARM64 executable..."
+                ls -l dist/
+                file dist/add2vals
+                '''            }
 
             echo "Archiving built artifact..."
             sleep(60)
